@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 50px;
+    background: maroon;
+    color: #fff;
+}
+
+body {
+    font-family: monospace;
+}
+
+.countdown {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

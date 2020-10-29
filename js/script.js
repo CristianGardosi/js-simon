@@ -8,7 +8,38 @@
 
 $(document).ready( function() {
 
+    var numbers = [];
+
+
+    for (var i = 0; i < 5; i++) {
+
+        var  numeriComputer = randomNumbers(1, 100);
+        numbers.push(numeriComputer);
+    }
+    console.log(numbers)
+
+    alert('I numeri casuali da ricordare sono: ' + numeriComputer);
+
+    // Countdown
+    var display = $('.countdown');
+    var seconds = 30;
+
+    var countdown30Sec = setInterval( function() {
+        if (seconds === 0) {
+            display.text('Tempo scaduto! Ricordi i cinque numeri?')
+        } else {
+            display.text(seconds);
+            seconds--;
+        }
+    }, 1000);
+
+
 
 
 
 });
+
+// FUNZIONI UTILITIES
+function randomNumbers(min, max) {
+    return Math.floor(Math.random() * (max - min + 1 ) ) + min;
+}
