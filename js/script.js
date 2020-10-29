@@ -7,20 +7,18 @@
 // Una volta inseriti i 5 numeri, il software dice quanti e quali numeri sono stati ricordati.
 
 $(document).ready( function() {
-
+    // Array che racchiude i 5 numeri casuali generati dal computer, verrà riempito attraverso la generazione degli stessi nel ciclo for
     var numbers = [];
-
-
+    // Genero i 5 numeri casuali che l'utente deve ricordare; li stampo nell'alert su schermo e li aggiungo nell'array vuoto che ho creato in precendenza
     for (var i = 0; i < 5; i++) {
-
         var  numeriComputer = randomNumbers(1, 100);
         numbers.push(numeriComputer);
+
     }
-    console.log(numbers)
+    alert('I numeri casuali da ricordare sono: ' + numbers);
+    console.log(numbers);
 
-    alert('I numeri casuali da ricordare sono: ' + numeriComputer);
-
-    // Countdown
+    // COUNTDOWN
     var display = $('.countdown');
     var seconds = 30;
 
@@ -32,6 +30,9 @@ $(document).ready( function() {
             seconds--;
         }
     }, 1000);
+
+
+
 
 
 
