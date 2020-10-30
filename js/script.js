@@ -1,47 +1,79 @@
 // ***********************************************************
-// SIMON SAYS
+// SIMON SAYS NUMBERS
 // ***********************************************************
-
 // Un alert espone 5 numeri casuali diversi.
 // Dopo 30 secondi l'utente deve inserire, un prompt alla volta, i numeri che ha visto precedentemente.
 // Una volta inseriti i 5 numeri, il software dice quanti e quali numeri sono stati ricordati.
+// Consigli del giorno:
+// * Pensate prima in italiano.
+// * Dividete in piccoli problemi la consegna.
+// * Individuate gli elementi di cui avete bisogno per realizzare il programma.
 
-$(document).ready( function() {
-    // Array che racchiude i 5 numeri casuali generati dal computer, verrà riempito attraverso la generazione degli stessi nel ciclo for
-    var numbers = [];
-    // Array che racchiude i numeri corretti che l'utente inserisce quando gli viene chiesto quali cifre ricorda
-    var rightNumbers = [];
-    // Genero i 5 numeri casuali che l'utente deve ricordare; li stampo nell'alert su schermo e li aggiungo nell'array vuoto che ho creato in precendenza
-    for (var i = 0; i < 5; i++) {
-        var  numeriComputer = randomNumbers(1, 100);
-        numbers.push(numeriComputer);
 
+// VAR DI SETUP
+// Lista numeri random vuota che riempirò
+randomNumbers = [];
+// Tempo di attesa prima di chiedere i numeri all'utente
+var waitingTime = 2000;
+
+// GENERAZIONE NUMERI RANDOM UNIVOCI, utilizzo while perchè non so quante volte sarà necessario ripetere l'operazione al fine di non avere doppioni
+while (randomNumbers.length < 5) {
+    // Variabile che conterrà i miei 5 numeri casuali generati
+    var generatedNumbers = randomNumber(1, 100);
+    // Controllo univocità
+    if (! randomNumbers.includes(generatedNumbers)) {
+        randomNumbers.push(generatedNumbers);
     }
-    alert('I numeri casuali da ricordare sono: ' + numbers);
-    console.log(numbers);
+}
+// Do i 5 numeri all'utente tramite un alert
+alert(randomNumbers);
 
-    // COUNTDOWN
-    var display = $('.countdown');
-    var seconds = 1;
+// LOGICA DI GIOCO
+setTimeout(function () {
+    // Variabile in cui colleziono i numeri che mi passa l'utente
+    var userNumbers = [];
 
-    var countdown30Sec = setInterval( function() {
-        if (seconds === 0) {
-            display.text('Tempo scaduto! Ricordi i cinque numeri?')
+    while (userNumbers.length < 5) {
+        var newUserNumber = parseInt( prompt( 'Inserisci ora il ' +  (userNumbers.length + 1) + '° numero') );
 
-            for (var i = 0; i < numbers.length; i++) {
-                parseInt( prompt('Inserisci, uno per volta, i cinque numeri che ti sono stati detti ad inizio gioco') );
-            }
-
-        } else {
-            display.text(seconds);
-            seconds--;
+        while (isNaN(newUserNumber) || newUserNumber < 1 || newUserNumber >100) {
+            newUserNumber = parseInt( prompt( 'Il valore inserito non è corretto! Riprova inserendo il ' +  (userNumbers.length + 1) + '° numero') );
         }
-    }, 1000);
+        // Controllo univocità prima del push
+        if (! userNumbers.includes(newUserNumber) ) {
+            userNumbers.push(newUserNumber);
+        } else {
+            alert('Il numero è già stato inserito, riprovare!')
+        }
+    }
+
+    // RISULTATO GIOCO E LOGICA DI CONTROLLO
+    // Var vuota da riempire con i numeri corretti inseriti dall'utente
+    var rightNumbers = [];
+
+    for (var i = 0; i < userNumbers.length; i++) {
+        // Se la lista dei numeri casuali generata all'inizio include il/i numeri inseriti dall'utente li vado a pushare nella nuova var che ho creato
+        if ( randomNumbers.includes(userNumbers[i]) ) {
+        rightNumbers.push(userNumbers[i]);
+        }
+    }
+
+    // Alert risultati
+    alert('RISULTATI\n' + 
+         'Lista numeri: ' + randomNumbers + 
+         '\nLista utente: ' + userNumbers +
+         '\nNumeri indovinati: ' + rightNumbers.length + ' nello specifico ' + rightNumbers);
+         
+}, waitingTime);
 
 
-});
 
-// FUNZIONI UTILITIES
-function randomNumbers(min, max) {
-    return Math.floor(Math.random() * (max - min + 1 ) ) + min;
+
+
+
+
+//FUNZIONI
+// Random numbers in a interval
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
